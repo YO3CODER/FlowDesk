@@ -1,65 +1,128 @@
-import Image from "next/image";
+"use client"
+import { useEffect, useState } from "react";
+import Wrapper from "./components/Wrapper";
+import { FolderGit2 } from "lucide-react";
+import { createProject, deleteProjectById, getProjectsCreatedByUser } from "./actions";
+import { useUser } from "@clerk/nextjs";
+import { toast } from "react-toastify";
+import { Project } from "@/type";
+import ProjectComponent from "./components/ProjectComponent";
+import EmptyState from "./components/EmptyState";
 
 export default function Home() {
+  const { user } = useUser()
+  const email = user?.primaryEmailAddress?.emailAddress as string
+  const [name, setName] = useState("")
+  const [description, setDescription] = useState("")
+  const [projects, setProjects] = useState<Project[]>([])
+  const [loading, setLoading] = useState(false) 
+
+  const fetchProjects = async (email: string) => {
+    try {
+      setLoading(true) 
+      const myProject = await getProjectsCreatedByUser(email)
+      setProjects(myProject)
+    } catch (error) {
+      console.error('Erreur lors du chargement des projets', error)
+    } finally {
+      setLoading(false) // 👈
+    }
+  }
+
+  useEffect(() => {
+    if (email) {
+      fetchProjects(email)
+    }
+  }, [email])
+
+  const deleteProject = async (projectId: string) => {
+    try {
+      await deleteProjectById(projectId)
+      fetchProjects(email)
+      toast.success("Projet supprimé avec succès.")
+    } catch (error) {
+      throw new Error("Error deleting project: " + error)
+    }
+  }
+
+  const handleSubmit = async () => {
+    try {
+      const modal = document.getElementById('my_modal_3') as HTMLDialogElement
+      await createProject(name, description, email)
+      if (modal) modal.close()
+      setName("")
+      setDescription("")
+      fetchProjects(email)
+      toast.success("Projet créé avec succès")
+    } catch (error) {
+      console.log("Error creating project")
+    }
+  }
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+    <Wrapper>
+      <div>
+        <button
+          className="btn mb-6 btn-primary"
+          onClick={() => (document.getElementById('my_modal_3') as HTMLDialogElement).showModal()}
+        >
+          Nouveau projet <FolderGit2 />
+        </button>
+
+        <dialog id="my_modal_3" className="modal">
+          <div className="modal-box">
+            <form method="dialog">
+              <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+            </form>
+            <h3 className="font-bold text-lg">Nouveau projet</h3>
+            <p className="py-4">Décrivez votre projet simplement grâce à la description.</p>
+            <div>
+              <input
+                type="text"
+                placeholder="Nom de projet"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="border border-base-200 input input-bordered w-full mb-4 placeholder:text-sm"
+                required
+              />
+              <textarea
+                placeholder="Description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className="mb-2 textarea textarea-bordered border border-base-300 w-full textarea-md placeholder::text-sm"
+                required
+              />
+              <button className="btn btn-primary" onClick={handleSubmit}>
+                Nouveau projet <FolderGit2 />
+              </button>
+            </div>
+          </div>
+        </dialog>
+
+       
+        <div className="w-full">
+          {loading ? (
+            <div className="flex justify-center items-center w-full py-20">
+              <span className="loading loading-spinner loading-lg text-primary" />
+            </div>
+          ) : projects.length > 0 ? (
+            <ul className="w-full grid md:grid-cols-3 gap-6">
+              {projects.map((project) => (
+                <li key={project.id}>
+                  <ProjectComponent project={project} style={true} admin={1} onDelete={deleteProject} />
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <EmptyState
+              imageSrc="/empty-project.png"
+              imageAlt="Picture of an empty project"
+              message="Aucun projet créé."
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+          )}
         </div>
-      </main>
-    </div>
+
+      </div>
+    </Wrapper>
   );
 }
