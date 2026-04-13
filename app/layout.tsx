@@ -4,8 +4,8 @@ import { ClerkProvider } from "@clerk/nextjs";
 import 'react-quill-new/dist/quill.snow.css'
 
 export const metadata: Metadata = {
-  title: "Create by YO",
-  description: "Gestion de projet",
+  title: "Gestion de projet",
+  description: "Create by yo",
 };
 
 export default function RootLayout({
