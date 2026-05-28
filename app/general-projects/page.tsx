@@ -25,7 +25,7 @@ const Page = () => {
         } catch (error) {
             toast.error("Erreur lors du chargement des projets.")
         } finally {
-            setLoadingProjects(false) // 👈
+            setLoadingProjects(false) 
         }
     }
 
