@@ -13,13 +13,13 @@ const Page = () => {
     const { user } = useUser()
     const email = user?.primaryEmailAddress?.emailAddress ?? ""
     const [inviteCode, setInviteCode] = useState("")
-    const [loadingSubmit, setLoadingSubmit] = useState(false)  // 👈 bouton
-    const [loadingProjects, setLoadingProjects] = useState(false) // 👈 liste
+    const [loadingSubmit, setLoadingSubmit] = useState(false)  
+    const [loadingProjects, setLoadingProjects] = useState(false) 
     const [associatedProjects, setAssociatedProjects] = useState<Project[]>([])
 
     const fetchProjects = async (email: string) => {
         try {
-            setLoadingProjects(true) // 👈
+            setLoadingProjects(true) 
             const associated = await getProjectsAssociatedWithUser(email)
             setAssociatedProjects(associated)
         } catch (error) {
@@ -38,11 +38,11 @@ const Page = () => {
     const handleSubmit = async () => {
         try {
             if (inviteCode !== "") {
-                setLoadingSubmit(true) // 👈
+                setLoadingSubmit(true) 
                 await addUserToProject(email, inviteCode)
                 toast.success("Vous pouvez maintenant collaborer sur ce projet")
                 setInviteCode("")
-                fetchProjects(email) // 👈 refresh la liste après rejoindre
+                fetchProjects(email) 
             } else {
                 toast.error("Entrez le code du projet s'il vous plaît")
             }

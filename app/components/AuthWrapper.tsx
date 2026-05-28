@@ -18,7 +18,7 @@ const AuthWrapper = ({ children }: WrapperProps) => {
                             </svg>
                         </div>
                         <span className="text-[22px] font-medium tracking-tight text-base-content">
-                            Flow<span className="text-primary">Desk</span>
+                            Task<span className="text-primary">Flow</span>
                         </span>
                     </div>
             <div className='w-full max-w-sm sm:max-w-md'>

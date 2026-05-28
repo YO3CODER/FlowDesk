@@ -11,7 +11,7 @@ const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false)
     const pathname = usePathname()
     const navLinks = [
-        { href: "/general-projects", label: "Collaboration" }, // ✅ Typo corrigée
+        { href: "/general-projects", label: "Collaboration" }, 
         { href: "/", label: "Mes projets" }
     ]
 
@@ -49,7 +49,7 @@ const Navbar = () => {
                             </svg>
                         </div>
                         <span className="text-[22px] font-medium tracking-tight text-base-content">
-                            Flow<span className="text-primary">Desk</span>
+                            Task<span className="text-primary">Flow</span>
                         </span>
                     </div>
                 </div>
