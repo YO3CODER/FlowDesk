@@ -45,8 +45,8 @@ const pillars = [
     color: '#f59e0b',
     label: 'Collaboratif',
     items: [
-      { title: 'Travail en équipe', desc: 'Invitez vos collaborateurs, assignez des tâches et suivez les contributions de chacun.' },
-      { title: 'Projets partagés', desc: 'Centralisez toutes les informations du projet en un seul endroit accessible à toute l\'équipe.' },
+      { title: 'Travail en équipe', desc: "Invitez vos collaborateurs, assignez des tâches et suivez les contributions de chacun." },
+      { title: 'Projets partagés', desc: "Centralisez toutes les informations du projet en un seul endroit accessible à toute l'équipe." },
     ],
   },
   {
@@ -54,7 +54,7 @@ const pillars = [
     label: 'Efficace',
     items: [
       { title: 'Suivi en temps réel', desc: 'Progression des tâches, statuts et priorités mis à jour instantanément.' },
-      { title: 'Vue d\'ensemble claire', desc: 'Tableau de bord synthétique pour piloter plusieurs projets sans vous perdre.' },
+      { title: "Vue d'ensemble claire", desc: 'Tableau de bord synthétique pour piloter plusieurs projets sans vous perdre.' },
     ],
   },
 ]
@@ -69,25 +69,25 @@ const steps = [
 const featureCards = [
   { title: 'Gestion des tâches', desc: 'Créez, assignez et suivez vos tâches avec des statuts clairs et des priorités définies.', color: '#6366f1' },
   { title: 'Projets multiples', desc: 'Gérez plusieurs projets en parallèle depuis un tableau de bord unique et synthétique.', color: '#f59e0b' },
-  { title: 'Collaboration', desc: 'Invitez des membres, partagez vos projets et avancez ensemble vers vos objectifs.', color: '#10b981' },
-  { title: 'Suivi en temps réel', desc: 'Progression des tâches mise à jour instantanément pour toute l\'équipe.', color: '#8b5cf6' },
+  { title: 'Collaboration', desc: "Invitez des membres, partagez vos projets et avancez ensemble vers vos objectifs.", color: '#10b981' },
+  { title: 'Suivi en temps réel', desc: "Progression des tâches mise à jour instantanément pour toute l'équipe.", color: '#8b5cf6' },
   { title: 'Interface intuitive', desc: 'Prise en main immédiate, sans formation. Conçu pour les équipes qui veulent aller vite.', color: '#ef4444' },
-  { title: '100% gratuit', desc: 'Accès complet sans abonnement. Toutes les fonctionnalités disponibles dès l\'inscription.', color: '#06b6d4' },
+  { title: '100% gratuit', desc: "Accès complet sans abonnement. Toutes les fonctionnalités disponibles dès l'inscription.", color: '#06b6d4' },
 ]
 
 const testimonials = [
   { name: 'Awa S.', role: 'Chef de projet, Dakar', color: '#6366f1', text: 'TaskFlow a transformé notre façon de travailler. On voit enfin qui fait quoi et les projets avancent vraiment.' },
   { name: 'Konan M.', role: 'Développeur freelance, Abidjan', color: '#10b981', text: 'Je gère mes projets clients et mes tâches perso au même endroit. Simple, rapide, efficace.' },
-  { name: 'Fatou D.', role: 'Directrice marketing, Dakar', color: '#f59e0b', text: 'L\'interface est tellement claire. Mon équipe a adopté l\'outil en moins d\'une journée.' },
-  { name: 'Yves T.', role: 'Entrepreneur, Abidjan', color: '#8b5cf6', text: 'Enfin un outil de gestion de projet qui ne nécessite pas une formation de 3 jours pour être utilisé.' },
+  { name: 'Fatou D.', role: 'Directrice marketing, Dakar', color: '#f59e0b', text: "L'interface est tellement claire. Mon équipe a adopté l'outil en moins d'une journée." },
+  { name: 'Yves T.', role: 'Entrepreneur, Abidjan', color: '#8b5cf6', text: "Enfin un outil de gestion de projet qui ne nécessite pas une formation de 3 jours pour être utilisé." },
 ]
 
 const faqs = [
-  { q: 'TaskFlow est-il vraiment gratuit ?', a: 'Oui, TaskFlow est 100% gratuit. Créez votre compte, créez vos projets et invitez votre équipe sans aucun abonnement.' },
-  { q: 'Combien de projets puis-je créer ?', a: 'Il n\'y a pas de limite. Vous pouvez créer autant de projets que nécessaire et y inviter autant de collaborateurs que vous le souhaitez.' },
-  { q: 'Puis-je utiliser TaskFlow seul ?', a: 'Absolument. TaskFlow fonctionne aussi bien en solo pour gérer vos tâches personnelles qu\'en équipe pour des projets collaboratifs.' },
-  { q: 'Mes données sont-elles sécurisées ?', a: 'Oui. Vos données sont hébergées de façon sécurisée. Seuls vous et les membres que vous invitez avez accès à vos projets.' },
-  { q: 'Peut-on accéder à TaskFlow depuis mobile ?', a: 'Oui, l\'interface est entièrement responsive et fonctionne parfaitement sur smartphone et tablette.' },
+  { q: 'TaskFlow est-il vraiment gratuit ?', a: "Oui, TaskFlow est 100% gratuit. Créez votre compte, créez vos projets et invitez votre équipe sans aucun abonnement." },
+  { q: 'Combien de projets puis-je créer ?', a: "Il n'y a pas de limite. Vous pouvez créer autant de projets que nécessaire et y inviter autant de collaborateurs que vous le souhaitez." },
+  { q: 'Puis-je utiliser TaskFlow seul ?', a: "Absolument. TaskFlow fonctionne aussi bien en solo pour gérer vos tâches personnelles qu'en équipe pour des projets collaboratifs." },
+  { q: 'Mes données sont-elles sécurisées ?', a: "Oui. Vos données sont hébergées de façon sécurisée. Seuls vous et les membres que vous invitez avez accès à vos projets." },
+  { q: 'Peut-on accéder à TaskFlow depuis mobile ?', a: "Oui, l'interface est entièrement responsive et fonctionne parfaitement sur smartphone et tablette." },
 ]
 
 export default async function LandingPage() {
@@ -139,14 +139,14 @@ export default async function LandingPage() {
             </div>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20 }} className="hero-image">
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} className="hero-image">
             <Image
               src="/1.gif"
               alt="TaskFlow en action"
-              width={500}
-              height={320}
+              width={220}
+              height={140}
               unoptimized
-              style={{ borderRadius: 20, boxShadow: '0 24px 48px rgba(0,0,0,0.25)', width: '100%', maxWidth: 500 }}
+              style={{ borderRadius: 20, boxShadow: '0 24px 48px rgba(0,0,0,0.25)', maxWidth: '100%', height: 'auto' }}
             />
           </div>
         </div>
@@ -203,7 +203,14 @@ export default async function LandingPage() {
             <p style={{ color: '#6b7280', fontSize: 17, marginBottom: 36, lineHeight: 1.6 }}>
               Créez votre compte en quelques secondes et commencez votre premier projet immédiatement — sans carte bancaire, sans engagement.
             </p>
-            <Image src="/2.gif" alt="Demo TaskFlow" width={300} height={180} unoptimized style={{ borderRadius: 16, display: 'block' }} />
+            <Image
+              src="/2.gif"
+              alt="Demo TaskFlow"
+              width={130}
+              height={80}
+              unoptimized
+              style={{ borderRadius: 16, display: 'block', maxWidth: '100%', height: 'auto' }}
+            />
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 30 }}>
             {steps.map(({ num, color, shadow, title, desc }) => (
@@ -234,14 +241,14 @@ export default async function LandingPage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 80 }}>
             {features.map((feature, index) => (
               <div key={index} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center', direction: index % 2 !== 0 ? 'rtl' : 'ltr' }} className="two-col">
-                <div style={{ direction: 'ltr' }}>
+                <div style={{ direction: 'ltr', display: 'flex', justifyContent: 'center' }}>
                   <Image
                     src={feature.gif}
                     alt={feature.title}
-                    width={520}
-                    height={320}
+                    width={200}
+                    height={120}
                     unoptimized
-                    style={{ width: '100%', borderRadius: 20, boxShadow: '0 12px 32px rgba(0,0,0,0.10)' }}
+                    style={{ borderRadius: 20, boxShadow: '0 12px 32px rgba(0,0,0,0.10)', maxWidth: '100%', height: 'auto' }}
                   />
                 </div>
                 <div style={{ direction: 'ltr' }}>
