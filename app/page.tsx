@@ -1,128 +1,220 @@
-"use client"
-import { useEffect, useState } from "react";
-import Wrapper from "./components/Wrapper";
-import { FolderGit2 } from "lucide-react";
-import { createProject, deleteProjectById, getProjectsCreatedByUser } from "./actions";
-import { useUser } from "@clerk/nextjs";
-import { toast } from "react-toastify";
-import { Project } from "@/type";
-import ProjectComponent from "./components/ProjectComponent";
-import EmptyState from "./components/EmptyState";
+import Link from 'next/link'
+import Image from 'next/image'
+import LandingNavbar from './components/LandingNavbar'
+import { auth } from '@clerk/nextjs/server'
+import { CheckCircle, Users, Zap, BarChart3, ArrowRight } from 'lucide-react'
 
-export default function Home() {
-  const { user } = useUser()
-  const email = user?.primaryEmailAddress?.emailAddress as string
-  const [name, setName] = useState("")
-  const [description, setDescription] = useState("")
-  const [projects, setProjects] = useState<Project[]>([])
-  const [loading, setLoading] = useState(false) 
+const features = [
+  {
+    gif: '/1.gif',
+    title: 'Créez vos projets',
+    description: 'Organisez votre travail en projets clairs et structurés. Ajoutez un nom, une description et démarrez immédiatement.',
+  },
+  {
+    gif: '/2.gif',
+    title: 'Gérez vos tâches',
+    description: 'Créez, assignez et suivez vos tâches en temps réel. Priorisez ce qui compte vraiment.',
+  },
+  {
+    gif: '/3.gif',
+    title: 'Collaborez en équipe',
+    description: 'Invitez des membres, partagez des projets et avancez ensemble vers vos objectifs.',
+  },
+  {
+    gif: '/4.gif',
+    title: 'Suivez la progression',
+    description: 'Visualisez l\'avancement de chaque projet et identifiez les blocages en un coup d\'œil.',
+  },
+  {
+    gif: '/5.gif',
+    title: 'Restez organisé',
+    description: 'Filtrez, triez et retrouvez n\'importe quelle tâche instantanément grâce à une interface intuitive.',
+  },
+]
 
-  const fetchProjects = async (email: string) => {
-    try {
-      setLoading(true) 
-      const myProject = await getProjectsCreatedByUser(email)
-      setProjects(myProject)
-    } catch (error) {
-      console.error('Erreur lors du chargement des projets', error)
-    } finally {
-      setLoading(false) // 👈
-    }
-  }
+const stats = [
+  { value: '10x', label: 'Plus productif' },
+  { value: '98%', label: 'Satisfaction' },
+  { value: '< 2min', label: 'Prise en main' },
+  { value: '0€', label: 'Pour commencer' },
+]
 
-  useEffect(() => {
-    if (email) {
-      fetchProjects(email)
-    }
-  }, [email])
+const advantages = [
+  { icon: <Zap className="w-5 h-5 text-primary" />, text: 'Interface rapide et intuitive' },
+  { icon: <Users className="w-5 h-5 text-primary" />, text: 'Collaboration en temps réel' },
+  { icon: <BarChart3 className="w-5 h-5 text-primary" />, text: 'Suivi visuel de la progression' },
+  { icon: <CheckCircle className="w-5 h-5 text-primary" />, text: 'Gestion des priorités simplifiée' },
+]
 
-  const deleteProject = async (projectId: string) => {
-    try {
-      await deleteProjectById(projectId)
-      fetchProjects(email)
-      toast.success("Projet supprimé avec succès.")
-    } catch (error) {
-      throw new Error("Error deleting project: " + error)
-    }
-  }
-
-  const handleSubmit = async () => {
-    try {
-      const modal = document.getElementById('my_modal_3') as HTMLDialogElement
-      await createProject(name, description, email)
-      if (modal) modal.close()
-      setName("")
-      setDescription("")
-      fetchProjects(email)
-      toast.success("Projet créé avec succès")
-    } catch (error) {
-      console.log("Error creating project")
-    }
-  }
+export default async function LandingPage() {
+  const { userId } = await auth()
 
   return (
-    <Wrapper>
-      <div>
-        <button
-          className="btn mb-6 btn-primary"
-          onClick={() => (document.getElementById('my_modal_3') as HTMLDialogElement).showModal()}
-        >
-          Nouveau projet <FolderGit2 />
-        </button>
+    <div className="min-h-screen bg-base-100">
+      <LandingNavbar />
 
-        <dialog id="my_modal_3" className="modal">
-          <div className="modal-box">
-            <form method="dialog">
-              <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-            </form>
-            <h3 className="font-bold text-lg">Nouveau projet</h3>
-            <p className="py-4">Décrivez votre projet simplement grâce à la description.</p>
-            <div>
-              <input
-                type="text"
-                placeholder="Nom de projet"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="border border-base-200 input input-bordered w-full mb-4 placeholder:text-sm"
-                required
-              />
-              <textarea
-                placeholder="Description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                className="mb-2 textarea textarea-bordered border border-base-300 w-full textarea-md placeholder::text-sm"
-                required
-              />
-              <button className="btn btn-primary" onClick={handleSubmit}>
-                Nouveau projet <FolderGit2 />
-              </button>
-            </div>
-          </div>
-        </dialog>
+      {/* Hero */}
+      <section className="relative px-5 md:px-[10%] pt-24 pb-32 flex flex-col items-center text-center gap-8 overflow-hidden">
+        {/* Background decoration */}
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/5 rounded-full blur-3xl" />
+        </div>
 
-       
-        <div className="w-full">
-          {loading ? (
-            <div className="flex justify-center items-center w-full py-20">
-              <span className="loading loading-spinner loading-lg text-primary" />
-            </div>
-          ) : projects.length > 0 ? (
-            <ul className="w-full grid md:grid-cols-3 gap-6">
-              {projects.map((project) => (
-                <li key={project.id}>
-                  <ProjectComponent project={project} style={true} admin={1} onDelete={deleteProject} />
-                </li>
-              ))}
-            </ul>
+        <div className="badge badge-primary badge-outline text-xs font-semibold px-4 py-2 gap-1.5">
+          <span className="w-1.5 h-1.5 rounded-full bg-primary inline-block animate-pulse" />
+          Gestion de projet nouvelle génération
+        </div>
+
+        <h1 className="text-5xl md:text-7xl font-bold text-base-content leading-tight max-w-4xl">
+          Organisez,{' '}
+          <span className="relative">
+            <span className="text-primary">collaborez</span>
+          </span>
+          ,{' '}
+          <br className="hidden md:block" />
+          livrez.
+        </h1>
+
+        <p className="text-base-content/60 text-xl max-w-xl leading-relaxed">
+          TaskFlow centralise vos projets, tâches et équipes dans un seul espace de travail fluide et puissant.
+        </p>
+
+        <div className="flex gap-3 flex-wrap justify-center">
+          {userId ? (
+            <Link href="/dashboard" className="btn btn-primary btn-lg gap-2">
+              Accéder à mon espace <ArrowRight className="w-4 h-4" />
+            </Link>
           ) : (
-            <EmptyState
-              imageSrc="/empty-project.png"
-              imageAlt="Picture of an empty project"
-              message="Aucun projet créé."
-            />
+            <>
+              <Link href="/sign-up" className="btn btn-primary btn-lg gap-2">
+                Commencer gratuitement <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link href="/sign-in" className="btn btn-outline btn-lg">
+                Se connecter
+              </Link>
+            </>
           )}
         </div>
 
-      </div>
-    </Wrapper>
-  );
+        {/* Avantages inline */}
+        <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 mt-2">
+          {advantages.map((adv, i) => (
+            <div key={i} className="flex items-center gap-1.5 text-sm text-base-content/60">
+              {adv.icon}
+              {adv.text}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Stats */}
+      <section className="px-5 md:px-[10%] py-12 border-y border-base-300 bg-base-200">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          {stats.map((stat, i) => (
+            <div key={i} className="flex flex-col items-center text-center gap-1">
+              <span className="text-3xl md:text-4xl font-bold text-primary">{stat.value}</span>
+              <span className="text-sm text-base-content/60">{stat.label}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Features */}
+      <section className="px-5 md:px-[10%] py-24">
+        <div className="text-center mb-16">
+          <div className="badge badge-primary badge-outline mb-4">Fonctionnalités</div>
+          <h2 className="text-3xl md:text-4xl font-bold text-base-content mb-4">
+            Tout ce dont vous avez besoin
+          </h2>
+          <p className="text-base-content/60 max-w-lg mx-auto text-lg">
+            De la création de projet à la livraison finale, TaskFlow vous accompagne à chaque étape.
+          </p>
+        </div>
+
+        <div className="space-y-24">
+          {features.map((feature, index) => (
+            <div
+              key={index}
+              className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-12`}
+            >
+              {/* GIF */}
+              <div className="w-full md:w-1/2">
+                <div className="rounded-2xl overflow-hidden border border-base-300 shadow-xl bg-base-200">
+                  <Image
+                    src={feature.gif}
+                    alt={feature.title}
+                    width={600}
+                    height={380}
+                    className="w-full object-cover"
+                    unoptimized
+                  />
+                </div>
+              </div>
+
+              {/* Text */}
+              <div className="w-full md:w-1/2 flex flex-col gap-4">
+                <div className="badge badge-primary badge-outline w-fit">
+                  Étape {index + 1}
+                </div>
+                <h3 className="text-2xl md:text-3xl font-bold text-base-content">
+                  {feature.title}
+                </h3>
+                <p className="text-base-content/60 text-lg leading-relaxed">
+                  {feature.description}
+                </p>
+                <div className="flex items-center gap-2 text-primary text-sm font-medium mt-2">
+                  <CheckCircle className="w-4 h-4" />
+                  Inclus dans tous les plans
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* CTA final */}
+      <section className="relative px-5 md:px-[10%] py-28 flex flex-col items-center text-center gap-6 overflow-hidden">
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-primary/5 rounded-full blur-3xl" />
+        </div>
+        <div className="badge badge-primary badge-outline mb-2">Prêt à démarrer ?</div>
+        <h2 className="text-3xl md:text-5xl font-bold text-base-content max-w-2xl leading-tight">
+          Boostez la productivité de votre équipe dès aujourd&apos;hui
+        </h2>
+        <p className="text-base-content/60 max-w-md text-lg">
+          Rejoignez TaskFlow et transformez la façon dont vous gérez vos projets. Gratuit, sans carte bancaire.
+        </p>
+        {userId ? (
+          <Link href="/dashboard" className="btn btn-primary btn-lg gap-2">
+            Accéder à mon espace <ArrowRight className="w-4 h-4" />
+          </Link>
+        ) : (
+          <div className="flex gap-3 flex-wrap justify-center">
+            <Link href="/sign-up" className="btn btn-primary btn-lg gap-2">
+              Démarrer maintenant <ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link href="/sign-in" className="btn btn-outline btn-lg">
+              Se connecter
+            </Link>
+          </div>
+        )}
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-base-300 px-5 md:px-[10%] py-8 flex flex-col md:flex-row justify-between items-center gap-4 text-base-content/40 text-sm">
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-6 rounded-md bg-primary flex items-center justify-center flex-shrink-0">
+            <svg width="14" height="14" viewBox="0 0 18 18" fill="none">
+              <rect x="2" y="2" width="6" height="6" rx="1.5" fill="white" fillOpacity="0.9" />
+              <rect x="10" y="2" width="6" height="6" rx="1.5" fill="white" fillOpacity="0.5" />
+              <rect x="2" y="10" width="6" height="6" rx="1.5" fill="white" fillOpacity="0.5" />
+              <rect x="10" y="10" width="6" height="6" rx="1.5" fill="white" fillOpacity="0.75" />
+            </svg>
+          </div>
+          <span className="font-medium">Task<span className="text-primary">Flow</span></span>
+        </div>
+        <span>© {new Date().getFullYear()} TaskFlow — Tous droits réservés</span>
+      </footer>
+    </div>
+  )
 }
