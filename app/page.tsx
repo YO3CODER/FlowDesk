@@ -8,27 +8,27 @@ const features = [
   {
     gif: '/1.gif',
     title: 'Créez vos projets',
-    description: 'Organisez votre travail en projets clairs et structurés. Ajoutez un nom, une description et démarrez immédiatement.',
+    description: 'Organisez votre travail en projets clairs et structurés. Ajoutez un nom, une description et démarrez immédiatement. Chaque projet est un espace dédié où vous pouvez inviter des collaborateurs, définir des objectifs et suivre la progression en temps réel.',
   },
   {
     gif: '/2.gif',
     title: 'Gérez vos tâches',
-    description: 'Créez, assignez et suivez vos tâches en temps réel. Priorisez ce qui compte vraiment.',
+    description: 'Créez, assignez et suivez vos tâches en temps réel. Priorisez ce qui compte vraiment. Avec notre système intelligent de priorités et de statuts, vous verrez toujours ce qui est urgent, ce qui est en cours et ce qui a été complété. Les notifications en temps réel gardent tout le monde synchronisé.',
   },
   {
     gif: '/3.gif',
     title: 'Collaborez en équipe',
-    description: 'Invitez des membres, partagez des projets et avancez ensemble vers vos objectifs.',
+    description: 'Invitez des membres, partagez des projets et avancez ensemble vers vos objectifs. Communiquez directement sur les tâches, assignez des rôles spécifiques et laissez les permissions granulaires vous donner le contrôle total sur qui peut faire quoi dans vos projets.',
   },
   {
     gif: '/4.gif',
     title: 'Suivez la progression',
-    description: 'Visualisez l\'avancement de chaque projet et identifiez les blocages en un coup d\'œil.',
+    description: 'Visualisez l\'avancement de chaque projet et identifiez les blocages en un coup d\'œil. Nos tableaux de bord intuitifs vous montrent des graphiques détaillés, des métriques clés et des alertes pour les tâches en retard. Prenez des décisions meilleures grâce à des données visualisées clairement.',
   },
   {
     gif: '/5.gif',
     title: 'Restez organisé',
-    description: 'Filtrez, triez et retrouvez n\'importe quelle tâche instantanément grâce à une interface intuitive.',
+    description: 'Filtrez, triez et retrouvez n\'importe quelle tâche instantanément grâce à une interface intuitive. Utilisez des étiquettes personnalisées, des catégories et des recherches avancées pour garder le contrôle total de votre portefeuille de projets, peu importe sa taille.',
   },
 ]
 
@@ -73,7 +73,7 @@ export default async function LandingPage() {
         </h1>
 
         <p className="text-base-content/60 text-xl max-w-xl leading-relaxed">
-          TaskFlow centralise vos projets, tâches et équipes dans un seul espace de travail fluide et puissant.
+          TaskFlow centralise vos projets, tâches et équipes dans un seul espace de travail fluide et puissant. Gratuit, sans engagement et sans limite.
         </p>
 
         <div className="flex gap-3 flex-wrap justify-center">
@@ -123,7 +123,7 @@ export default async function LandingPage() {
             Tout ce dont vous avez besoin
           </h2>
           <p className="text-base-content/60 max-w-lg mx-auto text-lg">
-            De la création de projet à la livraison finale, TaskFlow vous accompagne à chaque étape.
+            De la création de projet à la livraison finale, TaskFlow vous accompagne à chaque étape avec des outils puissants et simples.
           </p>
         </div>
 
@@ -134,15 +134,17 @@ export default async function LandingPage() {
               className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-12`}
             >
               {/* GIF */}
-              <div className="w-full md:w-1/2">
-                <Image
-                  src={feature.gif}
-                  alt={feature.title}
-                  width={600}
-                  height={400}
-                  className="w-full rounded-2xl shadow-xl"
-                  unoptimized
-                />
+              <div className="w-full md:w-1/2 flex justify-center">
+                <div className="w-48">
+                  <Image
+                    src={feature.gif}
+                    alt={feature.title}
+                    width={240}
+                    height={150}
+                    className="w-full rounded-2xl shadow-xl"
+                    unoptimized
+                  />
+                </div>
               </div>
 
               {/* Text */}
@@ -173,10 +175,10 @@ export default async function LandingPage() {
         </div>
         <div className="badge badge-primary badge-outline mb-2">Prêt à démarrer ?</div>
         <h2 className="text-3xl md:text-5xl font-bold text-base-content max-w-2xl leading-tight">
-          Boostez la productivité de votre équipe dès aujourd&apos;hui
+          Transformez la façon dont vous travaillez en équipe
         </h2>
         <p className="text-base-content/60 max-w-md text-lg">
-          Rejoignez TaskFlow et transformez la façon dont vous gérez vos projets. Gratuit, sans carte bancaire.
+          Rejoignez des centaines d'équipes qui utilisent TaskFlow pour gérer leurs projets plus efficacement. Gratuit, sans carte bancaire, sans engagement.
         </p>
         {userId ? (
           <Link href="/dashboard" className="btn btn-primary btn-lg gap-2">
