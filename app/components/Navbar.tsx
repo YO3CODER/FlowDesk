@@ -12,7 +12,8 @@ const Navbar = () => {
     const pathname = usePathname()
     const navLinks = [
         { href: "/general-projects", label: "Collaboration" }, 
-        { href: "/", label: "Mes projets" }
+        { href: "/", label: "Mes projets" }, 
+        { href: "https://learnlyv2.yosite.fun/cours", label: "Learnly" }
     ]
 
     useEffect(() => {
