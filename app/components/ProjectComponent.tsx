@@ -1,5 +1,5 @@
 import { Project } from '@/type'
-import { Copy, ExternalLink, FolderGit2, Trash } from 'lucide-react'
+import { Copy, ExternalLink, FolderGit2, Trash, Share2, Mail, MessageCircle } from 'lucide-react'
 import Link from 'next/link'
 import React, { FC, useRef } from 'react'
 import { toast } from 'react-toastify'
@@ -14,6 +14,7 @@ interface ProjectProps {
 const ProjectComponent: FC<ProjectProps> = ({ project, admin, style, onDelete }) => {
 
     const modalRef = useRef<HTMLDialogElement>(null)
+    const shareModalRef = useRef<HTMLDialogElement>(null)
 
     const handleDeleteClick = () => {
         modalRef.current?.showModal()
@@ -26,6 +27,14 @@ const ProjectComponent: FC<ProjectProps> = ({ project, admin, style, onDelete })
 
     const handleCancelDelete = () => {
         modalRef.current?.close()
+    }
+
+    const handleShareClick = () => {
+        shareModalRef.current?.showModal()
+    }
+
+    const handleCloseShare = () => {
+        shareModalRef.current?.close()
     }
 
     const totalTasks = project.tasks?.length;
@@ -57,6 +66,59 @@ const ProjectComponent: FC<ProjectProps> = ({ project, admin, style, onDelete })
             }
         } catch (error) {
             toast.error("Erreur lors de la copie du code d'invitation.")
+        }
+    }
+
+    const handleShareWhatsApp = async () => {
+        try {
+            if (project.inviteCode) {
+                await navigator.clipboard.writeText(project.inviteCode)
+                const inviteLink = `${window.location.origin}/project/${project.id}?inviteCode=${project.inviteCode}`
+                const message = `Rejoins-moi sur le projet "${project.name}" sur TaskFlow !\n\nCode d'invitation : ${project.inviteCode}\n\n${inviteLink}`
+                const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`
+                window.open(whatsappUrl, '_blank')
+                handleCloseShare()
+                toast.success("Code copié ! WhatsApp s'ouvre...")
+            }
+        } catch (error) {
+            toast.error("Erreur lors du partage WhatsApp.")
+        }
+    }
+
+    const handleShareGmail = async () => {
+        try {
+            if (project.inviteCode) {
+                await navigator.clipboard.writeText(project.inviteCode)
+                const inviteLink = `${window.location.origin}/project/${project.id}?inviteCode=${project.inviteCode}`
+                const subject = `Invitation TaskFlow - ${project.name}`
+                const body = `Rejoins-moi sur le projet "${project.name}" sur TaskFlow !\n\nCode d'invitation : ${project.inviteCode}\n\nOu clique ici pour rejoindre directement : ${inviteLink}`
+                const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+                window.open(gmailUrl, '_blank')
+                handleCloseShare()
+                toast.success("Code copié ! Gmail s'ouvre...")
+            }
+        } catch (error) {
+            toast.error("Erreur lors du partage Gmail.")
+        }
+    }
+
+    const handleShareNative = async () => {
+        try {
+            if (project.inviteCode && navigator.share) {
+                const shareData = {
+                    title: 'TaskFlow Invitation',
+                    text: `Rejoins-moi sur le projet "${project.name}" ! Code : ${project.inviteCode}`,
+                    url: window.location.href
+                }
+                await navigator.share(shareData)
+                handleCloseShare()
+            } else if (project.inviteCode) {
+                await navigator.clipboard.writeText(project.inviteCode)
+                toast.success("Code d'invitation copié !")
+                handleCloseShare()
+            }
+        } catch (error) {
+            toast.error("Erreur lors du partage.")
         }
     }
 
@@ -144,10 +206,17 @@ const ProjectComponent: FC<ProjectProps> = ({ project, admin, style, onDelete })
   {/* Actions */}
   <div className='flex items-center gap-2'>
     {style && (
-      <Link className='btn btn-primary btn-sm flex-1 justify-center' href={`/project/${project.id}`}>
-        Voir le projet
-        <ExternalLink className="w-3.5" />
-      </Link>
+      <>
+        <Link className='btn btn-primary btn-sm flex-1 justify-center' href={`/project/${project.id}`}>
+          Voir le projet
+          <ExternalLink className="w-3.5" />
+        </Link>
+        {admin === 1 && (
+          <button className='btn btn-sm btn-ghost border border-base-300 hover:bg-base-200' onClick={handleShareClick}>
+            <Share2 className='w-3.5' />
+          </button>
+        )}
+      </>
     )}
     {admin === 1 && (
       <button className='btn btn-sm btn-ghost text-error border border-error/20 hover:bg-error/10' onClick={handleDeleteClick}>
@@ -174,6 +243,55 @@ const ProjectComponent: FC<ProjectProps> = ({ project, admin, style, onDelete })
         </button>
         <button className="btn btn-error btn-sm text-white" onClick={handleConfirmDelete}>
           Supprimer
+        </button>
+      </div>
+    </div>
+    <form method="dialog" className="modal-backdrop">
+      <button>close</button>
+    </form>
+  </dialog>
+
+  {/* Modal partage */}
+  <dialog ref={shareModalRef} className="modal">
+    <div className="modal-box">
+      <h3 className="font-medium text-lg flex items-center gap-2 mb-4">
+        <Share2 className="w-5 text-primary" />
+        Partager le projet
+      </h3>
+      <p className="text-base-content/50 text-sm mb-6">
+        Partage le code d'invitation <span className="font-medium text-primary">{project.inviteCode}</span> avec tes collaborateurs
+      </p>
+      <div className="bg-base-200 rounded-lg p-4 mb-6 text-sm break-all">
+        <p className="text-base-content/60 mb-2">Lien d'invitation :</p>
+        <p className="text-primary font-medium">{`${typeof window !== 'undefined' ? window.location.origin : ''}/project/${project.id}?inviteCode=${project.inviteCode}`}</p>
+      </div>
+      <div className="grid grid-cols-2 gap-3 mb-6">
+        <button 
+          className='btn btn-outline btn-sm flex items-center justify-center gap-2 hover:bg-green-50 border-green-200'
+          onClick={handleShareWhatsApp}
+        >
+          <MessageCircle className='w-4 text-green-600' />
+          <span className='text-sm'>WhatsApp</span>
+        </button>
+        <button 
+          className='btn btn-outline btn-sm flex items-center justify-center gap-2 hover:bg-blue-50 border-blue-200'
+          onClick={handleShareGmail}
+        >
+          <Mail className='w-4 text-blue-600' />
+          <span className='text-sm'>Gmail</span>
+        </button>
+      </div>
+      <div className="divider my-4">ou</div>
+      <button 
+        className='btn btn-primary btn-sm w-full mb-4'
+        onClick={handleShareNative}
+      >
+        <Share2 className='w-4' />
+        Partager
+      </button>
+      <div className="modal-action">
+        <button className="btn btn-ghost btn-sm w-full" onClick={handleCloseShare}>
+          Fermer
         </button>
       </div>
     </div>
