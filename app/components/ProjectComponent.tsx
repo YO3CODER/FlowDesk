@@ -73,17 +73,9 @@ const ProjectComponent: FC<ProjectProps> = ({ project, admin, style, onDelete })
         try {
             if (project.inviteCode) {
                 await navigator.clipboard.writeText(project.inviteCode)
-                const message1 = `Rejoins-moi sur le projet "${project.name}" sur TaskFlow !\n\nCode d'invitation : ${project.inviteCode}`
-                const message2 = `https://memoire.yosite.fun/general-projects`
-                const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message1)}`
+                const message = `Rejoins-moi sur le projet "${project.name}" sur TaskFlow !\n\nCode d'invitation : ${project.inviteCode}\n\nhttps://memoire.yosite.fun/general-projects`
+                const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`
                 window.open(whatsappUrl, '_blank')
-                
-                // Attendre 500ms avant de préparer le deuxième message
-                setTimeout(() => {
-                    const whatsappUrl2 = `https://wa.me/?text=${encodeURIComponent(message2)}`
-                    window.open(whatsappUrl2, '_blank')
-                }, 500)
-                
                 handleCloseShare()
                 toast.success("Code copié ! WhatsApp s'ouvre...")
             }
