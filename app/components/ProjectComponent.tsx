@@ -73,7 +73,7 @@ const ProjectComponent: FC<ProjectProps> = ({ project, admin, style, onDelete })
         try {
             if (project.inviteCode) {
                 await navigator.clipboard.writeText(project.inviteCode)
-                const message = `Rejoins-moi sur le projet "${project.name}" sur TaskFlow !\n\nCode d'invitation : ${project.inviteCode}\n\nmemoire.yosite.fun`
+                const message = `Rejoins-moi sur le projet "${project.name}" sur TaskFlow !\n\nCode d'invitation : ${project.inviteCode}\n\nmemoire.yosite.fun/general-projects`
                 const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`
                 window.open(whatsappUrl, '_blank')
                 handleCloseShare()
@@ -89,7 +89,7 @@ const ProjectComponent: FC<ProjectProps> = ({ project, admin, style, onDelete })
             if (project.inviteCode) {
                 await navigator.clipboard.writeText(project.inviteCode)
                 const subject = `Invitation TaskFlow - ${project.name}`
-                const body = `Rejoins-moi sur le projet "${project.name}" sur TaskFlow !\n\nCode d'invitation : ${project.inviteCode}\n\nmemoire.yosite.fun`
+                const body = `Rejoins-moi sur le projet "${project.name}" sur TaskFlow !\n\nCode d'invitation : ${project.inviteCode}\n\nmemoire.yosite.fun/general-projects`
                 const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
                 window.open(gmailUrl, '_blank')
                 handleCloseShare()
@@ -257,7 +257,7 @@ const ProjectComponent: FC<ProjectProps> = ({ project, admin, style, onDelete })
         Partager le projet
       </h3>
       <p className="text-base-content/50 text-sm mb-6">
-        Partage le code d'invitation avec tes collaborateurs sur memoire.yosite.fun
+        Partage le code d'invitation avec tes collaborateurs sur memoire.yosite.fun/general-projects
       </p>
       <div className="bg-base-200 rounded-lg p-4 mb-6 text-center">
         <p className="text-base-content/60 text-xs mb-2">Code d'invitation</p>
