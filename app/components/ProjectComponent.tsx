@@ -73,8 +73,7 @@ const ProjectComponent: FC<ProjectProps> = ({ project, admin, style, onDelete })
         try {
             if (project.inviteCode) {
                 await navigator.clipboard.writeText(project.inviteCode)
-                const inviteLink = `${window.location.origin}/project/${project.id}?inviteCode=${project.inviteCode}`
-                const message = `Rejoins-moi sur le projet "${project.name}" sur TaskFlow !\n\nCode d'invitation : ${project.inviteCode}\n\n${inviteLink}`
+                const message = `Rejoins-moi sur le projet "${project.name}" sur TaskFlow !\n\nCode d'invitation : ${project.inviteCode}`
                 const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`
                 window.open(whatsappUrl, '_blank')
                 handleCloseShare()
@@ -89,9 +88,8 @@ const ProjectComponent: FC<ProjectProps> = ({ project, admin, style, onDelete })
         try {
             if (project.inviteCode) {
                 await navigator.clipboard.writeText(project.inviteCode)
-                const inviteLink = `${window.location.origin}/project/${project.id}?inviteCode=${project.inviteCode}`
                 const subject = `Invitation TaskFlow - ${project.name}`
-                const body = `Rejoins-moi sur le projet "${project.name}" sur TaskFlow !\n\nCode d'invitation : ${project.inviteCode}\n\nOu clique ici pour rejoindre directement : ${inviteLink}`
+                const body = `Rejoins-moi sur le projet "${project.name}" sur TaskFlow !\n\nCode d'invitation : ${project.inviteCode}`
                 const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
                 window.open(gmailUrl, '_blank')
                 handleCloseShare()
@@ -259,11 +257,11 @@ const ProjectComponent: FC<ProjectProps> = ({ project, admin, style, onDelete })
         Partager le projet
       </h3>
       <p className="text-base-content/50 text-sm mb-6">
-        Partage le code d'invitation <span className="font-medium text-primary">{project.inviteCode}</span> avec tes collaborateurs
+        Partage le code d'invitation avec tes collaborateurs
       </p>
-      <div className="bg-base-200 rounded-lg p-4 mb-6 text-sm break-all">
-        <p className="text-base-content/60 mb-2">Lien d'invitation :</p>
-        <p className="text-primary font-medium">{`${typeof window !== 'undefined' ? window.location.origin : ''}/project/${project.id}?inviteCode=${project.inviteCode}`}</p>
+      <div className="bg-base-200 rounded-lg p-4 mb-6 text-center">
+        <p className="text-base-content/60 text-xs mb-2">Code d'invitation</p>
+        <p className="text-primary font-bold text-xl tracking-wider">{project.inviteCode}</p>
       </div>
       <div className="grid grid-cols-2 gap-3 mb-6">
         <button 
