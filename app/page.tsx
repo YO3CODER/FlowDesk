@@ -54,52 +54,70 @@ export default async function LandingPage() {
       <LandingNavbar />
 
       {/* Hero */}
-      <section className="relative px-5 md:px-[10%] pt-24 pb-32 flex flex-col items-center text-center gap-8 overflow-hidden">
+      <section className="relative px-5 md:px-[10%] pt-24 pb-32 overflow-hidden">
         <div className="absolute inset-0 -z-10">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/5 rounded-full blur-3xl" />
         </div>
 
-        <div className="badge badge-primary badge-outline text-xs font-semibold px-4 py-2 gap-1.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-primary inline-block animate-pulse" />
-          Gestion de projet nouvelle génération
-        </div>
-
-        <h1 className="text-5xl md:text-7xl font-bold text-base-content leading-tight max-w-4xl">
-          Organisez,{' '}
-          <span className="text-primary">collaborez</span>
-          ,{' '}
-          <br className="hidden md:block" />
-          livrez.
-        </h1>
-
-        <p className="text-base-content/60 text-xl max-w-xl leading-relaxed">
-          TaskFlow centralise vos projets, tâches et équipes dans un seul espace de travail fluide et puissant. Gratuit, sans engagement et sans limite.
-        </p>
-
-        <div className="flex gap-3 flex-wrap justify-center">
-          {userId ? (
-            <Link href="/dashboard" className="btn btn-primary btn-lg gap-2">
-              Accéder à mon espace <ArrowRight className="w-4 h-4" />
-            </Link>
-          ) : (
-            <>
-              <Link href="/sign-up" className="btn btn-primary btn-lg gap-2">
-                Commencer gratuitement <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link href="/sign-in" className="btn btn-outline btn-lg">
-                Se connecter
-              </Link>
-            </>
-          )}
-        </div>
-
-        <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 mt-2">
-          {advantages.map((adv, i) => (
-            <div key={i} className="flex items-center gap-1.5 text-sm text-base-content/60">
-              {adv.icon}
-              {adv.text}
+        <div className="flex flex-col md:flex-row items-center gap-12 justify-center">
+          {/* Left - Text */}
+          <div className="flex flex-col items-center md:items-start text-center md:text-left gap-8 md:w-1/2">
+            <div className="badge badge-primary badge-outline text-xs font-semibold px-4 py-2 gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary inline-block animate-pulse" />
+              Gestion de projet nouvelle génération
             </div>
-          ))}
+
+            <h1 className="text-5xl md:text-6xl font-bold text-base-content leading-tight">
+              Gérez vos projets{' '}
+              <span className="text-primary">en toute</span>
+              <br />
+              simplicité.
+            </h1>
+
+            <p className="text-base-content/60 text-lg leading-relaxed max-w-lg">
+              TaskFlow centralise vos projets, tâches et équipes dans un seul espace de travail fluide et puissant. Gratuit, sans engagement et sans limite.
+            </p>
+
+            <div className="flex gap-3 flex-wrap">
+              {userId ? (
+                <Link href="/dashboard" className="btn btn-primary btn-lg gap-2">
+                  Accéder à mon espace <ArrowRight className="w-4 h-4" />
+                </Link>
+              ) : (
+                <>
+                  <Link href="/sign-up" className="btn btn-primary btn-lg gap-2">
+                    Commencer gratuitement <ArrowRight className="w-4 h-4" />
+                  </Link>
+                  <Link href="/sign-in" className="btn btn-outline btn-lg">
+                    Se connecter
+                  </Link>
+                </>
+              )}
+            </div>
+
+            <div className="flex flex-wrap gap-x-6 gap-y-2">
+              {advantages.map((adv, i) => (
+                <div key={i} className="flex items-center gap-1.5 text-sm text-base-content/60">
+                  {adv.icon}
+                  {adv.text}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Right - Image */}
+          <div className="md:w-1/2 flex justify-center">
+            <div className="w-40 md:w-48">
+              <Image
+                src="/2.gif"
+                alt="TaskFlow en action"
+                width={200}
+                height={150}
+                className="w-full rounded-2xl shadow-lg"
+                unoptimized
+              />
+            </div>
+          </div>
         </div>
       </section>
 
